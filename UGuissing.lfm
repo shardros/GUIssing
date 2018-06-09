@@ -1,0 +1,21 @@
+object Guessing: TGuessing
+  Left = 1440
+  Height = 1078
+  Top = 0
+  Width = 478
+  Caption = 'Guessing game'
+  ClientHeight = 1078
+  ClientWidth = 478
+  OnCreate = InitGuessing
+  LCLVersion = '1.8.2.0'
+  object DrawBtn: TButton
+    Left = 24
+    Height = 33
+    Top = 24
+    Width = 113
+    AutoSize = True
+    Caption = 'Draw stickman'
+    OnClick = DrawBtnClick
+    TabOrder = 0
+  end
+end
