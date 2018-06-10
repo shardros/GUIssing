@@ -1,0 +1,28 @@
+object Guessing: TGuessing
+  Caption = 'Guessing game'
+  KeyPreview = True
+  OnCreate = FormCreate
+  OnKeyPress = KeyIntercept
+  object YesBtn: TButton
+    Caption = 'Yes'
+    OnClick = YesBtnClick
+  end
+  object NoBtn: TButton
+    Caption = 'No'
+    OnClick = NoBtnClick
+  end
+  object QuestionLbl: TLabel
+    Caption = 'This is where the question goes'
+  end
+  object IntBtn: TButton
+    Caption = 'n \in \mathbb{Z}'
+    OnClick = SetIntSearch
+  end
+  object FracBtn: TButton
+    Caption = 'q \in \mathbb{Q}'
+    OnClick = SetFracSearch
+  end
+  object ExplanationLbl: TLabel
+    Caption = 'The GUI-ssing game'
+  end
+end

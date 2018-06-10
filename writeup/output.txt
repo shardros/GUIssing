@@ -1,0 +1,66 @@
+Initialising game
+Question: Welcome to the guessing game! Think of a number and select its domain.
+Pressed key z
+Entering unbounded integer binary search
+Question: Is 0 \le \abs{n} < 64?
+Pressed key y
+Answer Yes
+Question: Is n \ge 0?
+Pressed key n
+Answer No
+Question: Is n \ge -31?
+Pressed key y
+Answer Yes
+Question: Is n \ge -15?
+Pressed key y
+Answer Yes
+Question: Is n \ge -7?
+Pressed key y
+Answer Yes
+Question: Is n \ge -3?
+Pressed key n
+Answer No
+Question: Is n \ge -5?
+Pressed key y
+Answer Yes
+Question: Is n \ge -4?
+Pressed key n
+Answer No
+Guessed: Your number was -5.
+Question: Your number was -5. Think of another number, and select its domain.
+Pressed key q
+Entering Stern-Brocot search
+Question: Is q = 0?
+Pressed key n
+Answer No
+Question: Is q \ge 0?
+Pressed key y
+Answer Yes
+Question: Is q = \frac{1}{1}?
+Pressed key n
+Answer No
+Question: Is q > \frac{1}{1}?
+Pressed key n
+Answer No
+Question: Is q = \frac{1}{2}?
+Pressed key n
+Answer No
+Question: Is q > \frac{1}{2}?
+Pressed key y
+Answer Yes
+Question: Is q = \frac{2}{3}?
+Pressed key n
+Answer No
+Question: Is q > \frac{2}{3}?
+Pressed key n
+Answer No
+Question: Is q = \frac{3}{5}?
+Pressed key n
+Answer No
+Question: Is q > \frac{3}{5}?
+Pressed key n
+Answer No
+Question: Is q = \frac{4}{7}?
+Pressed key y
+Answer Yes
+Guess
