@@ -4,13 +4,13 @@ unit UGuesser;
 
 interface
 
-type
-    IGuesser = interface
-        constructor Create;
-        function ask_question: string;
-        procedure answer_question(reply: bool);
-    end;
+uses SysUtils;
 
+type
+    TGuesser = class abstract
+        function ask_question: string; virtual; abstract;
+        procedure answer_question(reply: boolean); virtual; abstract;
+    end;
     EGuessSuccessful = class(Exception);
 
 implementation

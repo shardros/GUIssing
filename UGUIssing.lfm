@@ -1,0 +1,69 @@
+object Guessing: TGuessing
+  Left = 640
+  Height = 538
+  Top = 540
+  Width = 638
+  Caption = 'Guessing game'
+  ClientHeight = 538
+  ClientWidth = 638
+  KeyPreview = True
+  OnCreate = FormCreate
+  OnKeyPress = KeyIntercept
+  LCLVersion = '1.8.2.0'
+  object YesBtn: TButton
+    Left = 104
+    Height = 33
+    Top = 232
+    Width = 38
+    AutoSize = True
+    Caption = 'Yes'
+    OnClick = YesBtnClick
+    TabOrder = 0
+  end
+  object NoBtn: TButton
+    Left = 192
+    Height = 33
+    Top = 232
+    Width = 33
+    AutoSize = True
+    Caption = 'No'
+    OnClick = NoBtnClick
+    TabOrder = 1
+  end
+  object QuestionLbl: TLabel
+    Left = 80
+    Height = 19
+    Top = 176
+    Width = 204
+    Caption = 'This is where the question goes'
+    ParentColor = False
+  end
+  object IntBtn: TButton
+    Left = 40
+    Height = 33
+    Top = 112
+    Width = 122
+    AutoSize = True
+    Caption = 'n \in \mathbb{Z}'
+    OnClick = SetIntSearch
+    TabOrder = 2
+  end
+  object FracBtn: TButton
+    Left = 192
+    Height = 33
+    Top = 112
+    Width = 124
+    AutoSize = True
+    Caption = 'q \in \mathbb{Q}'
+    OnClick = SetFracSearch
+    TabOrder = 3
+  end
+  object ExplanationLbl: TLabel
+    Left = 64
+    Height = 19
+    Top = 32
+    Width = 135
+    Caption = 'The GUI-ssing game'
+    ParentColor = False
+  end
+end

@@ -32,12 +32,11 @@
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="uguissing.pas"/>
+        <Filename Value="UGUIssing.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Guessing"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="UGUIssing"/>
       </Unit1>
     </Units>
   </ProjectOptions>
@@ -59,7 +58,7 @@
     </Linking>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="3">
+    <Exceptions Count="4">
       <Item1>
         <Name Value="EAbort"/>
       </Item1>
@@ -69,6 +68,9 @@
       <Item3>
         <Name Value="EFOpenError"/>
       </Item3>
+      <Item4>
+        <Name Value="EGuessSuccessful"/>
+      </Item4>
     </Exceptions>
   </Debugging>
 </CONFIG>

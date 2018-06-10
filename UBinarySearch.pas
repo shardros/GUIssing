@@ -4,62 +4,77 @@ unit UBinarySearch;
 
 interface
 
-uses UGuesser;
+uses UGuesser, SysUtils;
 
 const
-    STARTING_BOUND = 64;
+  // Symbolic constant representing the starting upper bound. 64 chosen to
+  // encompass most 2-digit numbers.
+  STARTING_BOUND = 64;
 
 type
-    TBinarySearcher = class(TInterfacedObject, IGuesser)
-    protected
-        has_bounds, has_sign, is_negative: bool;
-        up, lo, mid: integer;
-    public
-        constructor Create;
-        function ask_question: string;
-        procedure answer_question(reply: bool);
-    end;
+  // Simple binary search, using the interval $Z & [lo, up)$.
+  // These bounds are determined by continually multiplying up by 2 until the
+  // user's number lies in the range.
+  TBinarySearcher = class(TGuesser)
+  protected
+    // various flags representing current stage of guessing
+    has_bounds, has_sign: boolean;
+    // bounds, and current pivot
+    lo, mid, up: integer;
+  public
+    constructor Create;
+    function ask_question: string; override;
+    procedure answer_question(reply: boolean); override;
+  end;
 
 implementation
 
 constructor TBinarySearcher.Create;
 begin
-    has_bounds := False;
-    has_sign := False;
-    is_negative := False;
-    up := STARTING_BOUND;
-    lo := 0;
+  has_bounds := False;
+  has_sign := False;
+  up := STARTING_BOUND;
+  lo := 0;
 end;
 
 function TBinarySearcher.ask_question: string;
 begin
-    if not has_sign then
-        result := 'Think of an integer n. Is n < 0?'
-    else if not has_bounds then begin
-        if is_negative then
-            lo := lo * 2
-        else
-            hi := hi * 2;
-        result := Format('Is %d <= n < %d', [lo, hi]);
-    end else begin
-        mid := (lo + up) div 2;
-        result := Format('Is n >= %d', [mid]);
-    end;
-end.
-
-procedure TBinarySearcher.answer_question(reply: bool);
-begin
-    if not has_sign then begin
-        is_negative := reply;
-        has_sign := True;
-    end else if not has_bounds then
-        has_bounds := reply
-    else begin
-        if reply then begin
-            lo := mid
-        else
-            hi := mid;
-        if hi - lo <= 1 then
-            raise EGuessSuccessful(Format('Your number was %d', [lo]));
-    end end;
+  if not has_bounds then begin
+    Result := Format('Is %d \le \abs{n} < %d?', [lo, up]);
+  end else if not has_sign then
+    Result := 'Is n \ge 0?'
+  else begin
+    mid := (lo + up) div 2;
+    Result := Format('Is n \ge %d?', [mid]);
+  end;
 end;
+
+procedure TBinarySearcher.answer_question(reply: boolean);
+var
+    tmp: integer;
+begin
+  if not has_bounds then
+    if not reply then begin
+      lo := up;
+      up := up * 2;
+    end else
+      has_bounds := True
+  else if not has_sign then begin
+    if not reply then begin
+      tmp := lo;
+      // negate bounds, accounting for (non)?strictness
+      lo := -up + 1;
+      up := -tmp + 1;
+    end;
+    has_sign := True;
+  end else begin
+    if reply then
+      lo := mid
+    else
+      up := mid;
+    if up - lo <= 1 then
+      raise EGuessSuccessful.Create(Format('Your number was %d.', [lo]));
+  end;
+end;
+
+end.
