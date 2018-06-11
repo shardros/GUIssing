@@ -10,6 +10,7 @@ const
   STARTING_BOUND = 64;
 
 type
+  // dummy type to display a message
   TDummyGuesser = class(TGuesser)
   protected
     msg: string;

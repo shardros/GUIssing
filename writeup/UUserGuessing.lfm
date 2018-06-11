@@ -1,0 +1,39 @@
+object UserGuessing: TUserGuessing
+  Caption = 'Guessing game'
+  KeyPreview = True
+  OnCreate = FormCreate
+  OnKeyPress = KeyIntercept
+  object LoLbl: TLabel
+    Caption = 'Lower Bound'
+  end
+  object UpLbl: TLabel
+    Caption = 'Upper Bound'
+  end
+  object GenerateBtn: TButton
+    Caption = 'Generate Number'
+    OnClick = GenerateBtnClick
+  end
+  object AnswerLbl: TLabel
+    Caption = 'This is where the answers go'
+  end
+  object GuessLbl: TLabel
+    Caption = 'Guess:'
+  end
+  object SwitchBtn: TButton
+    Caption = 'Back to computer guessing'
+    OnClick = SwitchBtnClick
+  end
+  object LoEdt: TEdit
+    MaxLength = 8
+    Text = '0'
+  end
+  object UpEdt: TEdit
+    MaxLength = 8
+    Text = '128'
+  end
+  object GuessEdt: TEdit
+    MaxLength = 8
+    OnEditingDone = GuessEdtEditingDone
+    Text = ' '
+  end
+end

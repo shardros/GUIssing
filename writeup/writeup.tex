@@ -124,7 +124,8 @@ top=2pt
 
     This project is the sequel to the popular \texttt{assignment\_guessing},
     at \url{https://github.com/elterminad0r/assignment_guessing}, now featuring
-    a very useful and fluid graphical interface.
+    a very useful and fluid graphical interface, more object orientation, and
+    cleaner general coding practices.
 
     It uses the same techniques to search both $\mathbb{Q}$ and $\mathbb{Z}$,
     but doesn't implement the linear approach to either, as it's not really
@@ -206,61 +207,88 @@ top=2pt
 
     \subsection{Boring}
 
-    Listing \ref{lst:lfm} contains an abridged version of the lfm (Lazarus
-    Forms) file, serving as a brief summary of all that I did in the object
-    inspector.
+    Listings \ref{lst:complfm} and \ref{lst:usrlfm} contains an abridged version
+    of the lfm (Lazarus Forms) file, serving as a brief summary of all that I
+    did in the object inspector.
 
 \begin{longlisting}
-\inputminted{pascal}{UGUIssing.lfm}
-\caption{(Heavily redacted) UGUIssing.lfm: Layout and programmatic properties of
-Form elements}
-\label{lst:lfm}
+\inputminted{pascal}{UComputerGuessing.lfm}
+\caption{(Heavily redacted) UComputerGuessing.lfm: Layout and programmatic
+properties of Form elements}
+\label{lst:complfm}
 \end{longlisting}
 
-    Listing \ref{lst:forms} shows the `main' code that deals with the
+\begin{longlisting}
+\inputminted{pascal}{UUserGuessing.lfm}
+\caption{(Heavily redacted) UUserGuessing.lfm: See \ref{lst:complfm}}
+\label{lst:usrlfm}
+\end{longlisting}
+
+    Listing \ref{lst:compforms} shows the `main' code that deals with the
     \texttt{TForm}. This part implements all the callbacks specified for each
     form component, and relays the user's actions to the \texttt{TGuesser}
     currently in action.
 
-    My favourite part of this section is \texttt{KeyIntercept}, which enables
+\begin{longlisting}
+\inputminted{Pascal}{../UComputerGuessing.pas}
+\caption{UComputerGuessing.pas: Implementing the Forms functionality}
+\label{lst:compforms}
+\end{longlisting}
+
+    Listing \ref{lst:usrforms} contains similar code but for the mode where the
+    user must guess the computer's number. This is perhaps even more mundane as
+    really all it does is handle a lot of conversions and check a couple of
+    cases.
+
+\begin{longlisting}
+\inputminted{Pascal}{../UUserGuessing.pas}
+\caption{UUserGuessing.pas: Implementing the Forms functionality}
+\label{lst:usrforms}
+\end{longlisting}
+
+    My favourite part of the form code is \texttt{KeyIntercept}, which enables
     the user not to have to press any buttons or really use the GUI at all,
     upgrading its usefulness to near CLI levels.
 
-\begin{longlisting}
-\inputminted{Pascal}{../UGUIssing.pas}
-\caption{UGUIssing.pas: Implementing the Forms functionality}
-\label{lst:forms}
-\end{longlisting}
-
     \section{Result}
 
-    A screenshot of the application is shown in fig \ref{pic:app}. The colouring
+    Screenshots of the application are shown in fig \ref{pic:app}. The colouring
     is not specifically set for this game, but is just my personal GTK theme
-    (Arc-Dark), which is detected by Lazarus.
+    (Arc-Dark), which is used as Lazarus implement Forms with GTK2.
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=0.5\textwidth]{win_screenshot_20180610_183143.png}
+\includegraphics[height=0.2\textheight]{win_screenshot_20180611_202749.png}
+\includegraphics[height=0.2\textheight]{win_screenshot_20180611_202757.png}
 \end{center}
-\caption{Screenshot of the game}\label{pic:app}
+\caption{Screenshots of the game}\label{pic:app}
 \end{figure}
 
     You may notice that all of the mathematics is formatted in the form of
-    \LaTeX\ source. This is the second best way to format maths, beside rendered
+    \LaTeX\ source. This is the second best\footnote{For example, it beats
+    straight utf-8 because it allows a user to render the maths using whatever
+    font they like in their head} way to format maths, beside rendered
     \LaTeX.
 
     The program can be interacted with by clicking the buttons, or, as covered
-    earlier, by pressing the appropriate keys. Because of the various
-    \mintinline{pascal}{writeln} statements I had included, I can easily capture
-    the actions executed by the user and program without needing multiple
-    screenshots. I first compiled using \texttt{lazbuild} or Lazarus, and then
-    ran \mintinline{zsh}{./GUIssing > writeup/output.txt}. This produced the
-    following file, after I executed a guess for
-    $\forall S \in \{\mathbb{Z}, \mathbb{Q}\}$.
+    earlier, by pressing the appropriate keys. I have also chosen
+    \texttt{TLabel} to communicate with the user rather than a \texttt{TListBox}
+    as it is more compact, and I feel better represents the spirit of a guessing
+    game (I consider it a vital component that your internal state should be
+    kept in your head, and would be furious if my opponent were to write
+    anything down).
+
+    Because of the various \mintinline{pascal}{writeln} statements I had
+    included, I can easily capture the actions executed by the user and program
+    without needing multiple screenshots. I first compiled using
+    \texttt{lazbuild} or Lazarus, and then ran
+    \mintinline{zsh}{./GUIssing > writeup/output.txt}.
+    This produced the file in listing \ref{lst:output}, after I executed a guess
+    for $\forall S \in \{\mathbb{Z}, \mathbb{Q}\}$.
 
 \begin{longlisting}
 \inputminted{text}{output.txt}
-\caption{Example session with program}
+\caption{Example log of session with program}\label{lst:output}
 \end{longlisting}
 
     This demonstrates the program correctly feeding information between the user
@@ -288,6 +316,32 @@ Form elements}
     in $\mathbb{Q}$. These were not included as entire logs as this would be a
     serious waste of paper.
 
+    Note that this program will fail if the user decided on a number not
+    representible by a Pascal \texttt{integer}, as shown in listing
+    \ref{lst:overflow}. To solve this problem permanently would require an
+    implementation of some kind of \texttt{BigInteger}. This would require lots
+    more memory management and boilerplate code to get anything done, so for now
+    I've opted to let it break.
+
+\begin{longlisting}
+\begin{minted}{text}
+Question: Is 536870912 \le \abs{n} < 1073741824?
+Pressed key n
+Answer No
+Question: Is 1073741824 \le \abs{n} < -2147483648?
+Pressed key n
+Answer No
+Question: Is -2147483648 \le \abs{n} < 0?
+Pressed key n
+Answer No
+Question: Is 0 \le \abs{n} < 0?
+Pressed key n
+Answer No
+Question: Is 0 \le \abs{n} < 0?
+\end{minted}
+\caption{Overflow leading to critical failure}\label{lst:overflow}
+\end{longlisting}
+
     \section{Source}
 
     The full project in its directory structure, including this document (as a
@@ -295,7 +349,7 @@ Form elements}
     \url{https://github.com/elterminad0r/GUIssing}.
 
     I would also like to take this moment to apologise for the aesthetics of my
-    previous PDFs, including the usage of the Computer Modern Font, but
+    previous PDFs, including the usage of the Computer Modern font, but
     especially the fact that the code listings didn't use a proper fixed-width
     font.
 

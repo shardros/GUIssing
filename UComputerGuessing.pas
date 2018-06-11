@@ -1,4 +1,4 @@
-unit UGUIssing;
+unit UComputerGuessing;
 
 {$mode objfpc}{$H+}
 
@@ -8,17 +8,24 @@ uses
   // Lazarus forms units
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls,
-
+  // Other form
+  UUserGuessing,
   // Custom units from project
   UGuesser, UBinarySearch, USternBrocotSearch, UDummyGuesser;
 
 type
-  TGuessing = class(TForm)
+
+  { TComputerGuessing }
+  // Main form - where the computer guesses the user's number
+  TComputerGuessing = class(TForm)
+    SwitchBtn: TButton;
     FracBtn, IntBtn: TButton;
     YesBtn, NoBtn: TButton;
     ExplanationLbl: TLabel;
     QuestionLbl: TLabel;
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure SwitchBtnClick(Sender: TObject);
     procedure YesBtnClick(Sender: TObject);
     procedure NoBtnClick(Sender: TObject);
     procedure SetIntSearch(Sender: TObject);
@@ -31,15 +38,15 @@ type
   end;
 
 var
-  Guessing: TGuessing;
+  ComputerGuessing: TComputerGuessing;
 
 implementation
 
 {$R *.lfm}
 
-{ TGuessing }
+{ TComputerGuessing }
 
-procedure TGuessing.FormCreate(Sender: TObject);
+procedure TComputerGuessing.FormCreate(Sender: TObject);
 begin
   writeln('Initialising game');
   ExplanationLbl.Font.Size := 30;
@@ -47,7 +54,19 @@ begin
   AskQn;
 end;
 
-procedure TGuessing.SetIntSearch(Sender: TObject);
+procedure TComputerGuessing.SwitchBtnClick(Sender: TObject);
+begin
+  writeln('Switching to user guessing mode');
+  UserGuessing.Show;
+end;
+
+procedure TComputerGuessing.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  writeln('Closing application');
+  Guesser.Free;
+end;
+
+procedure TComputerGuessing.SetIntSearch(Sender: TObject);
 begin
   writeln('Entering unbounded integer binary search');
   Guesser.Free;
@@ -55,7 +74,7 @@ begin
   AskQn;
 end;
 
-procedure TGuessing.SetFracSearch(Sender: TObject);
+procedure TComputerGuessing.SetFracSearch(Sender: TObject);
 begin
   writeln('Entering Stern-Brocot search');
   Guesser.Free;
@@ -63,21 +82,21 @@ begin
   AskQn;
 end;
 
-procedure TGuessing.YesBtnClick(Sender: TObject);
+procedure TComputerGuessing.YesBtnClick(Sender: TObject);
 begin
   writeln('Answer Yes');
   AnsQn(true);
 end;
 
-procedure TGuessing.NoBtnClick(Sender: TObject);
+procedure TComputerGuessing.NoBtnClick(Sender: TObject);
 begin
   writeln('Answer No');
   AnsQn(False);
 end;
 
-procedure TGuessing.KeyIntercept(Sender: TObject; var Key: char);
+procedure TComputerGuessing.KeyIntercept(Sender: TObject; var Key: char);
 begin
-  writeln('Pressed key ', Key);
+  write(Format('Pressed key %s ', [Key]));
   case Key of
     'y':
       YesBtnClick(Sender);
@@ -87,10 +106,12 @@ begin
       SetIntSearch(Sender);
     'q':
       SetFracSearch(Sender);
+    's':
+      SwitchBtnClick(Sender);
   end;
 end;
 
-procedure TGuessing.AnsQn(reply: boolean);
+procedure TComputerGuessing.AnsQn(reply: boolean);
 begin
   try
     Guesser.answer_question(reply);
@@ -104,7 +125,7 @@ begin
   AskQn;
 end;
 
-procedure TGuessing.AskQn;
+procedure TComputerGuessing.AskQn;
 begin
   QuestionLbl.Caption := Guesser.ask_question;
   writeln('Question: ', QuestionLbl.Caption);

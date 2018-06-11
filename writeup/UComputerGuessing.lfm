@@ -1,6 +1,7 @@
-object Guessing: TGuessing
+object ComputerGuessing: TComputerGuessing
   Caption = 'Guessing game'
   KeyPreview = True
+  OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = KeyIntercept
   object YesBtn: TButton
@@ -24,5 +25,9 @@ object Guessing: TGuessing
   end
   object ExplanationLbl: TLabel
     Caption = 'The GUI-ssing game'
+  end
+  object SwitchBtn: TButton
+    Caption = 'Switch to user guessing'
+    OnClick = SwitchBtnClick
   end
 end

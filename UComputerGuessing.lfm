@@ -1,12 +1,13 @@
-object Guessing: TGuessing
-  Left = 640
+object ComputerGuessing: TComputerGuessing
+  Left = 708
   Height = 538
   Top = 540
-  Width = 638
+  Width = 503
   Caption = 'Guessing game'
   ClientHeight = 538
-  ClientWidth = 638
+  ClientWidth = 503
   KeyPreview = True
+  OnClose = FormClose
   OnCreate = FormCreate
   OnKeyPress = KeyIntercept
   LCLVersion = '1.8.2.0'
@@ -65,5 +66,15 @@ object Guessing: TGuessing
     Width = 135
     Caption = 'The GUI-ssing game'
     ParentColor = False
+  end
+  object SwitchBtn: TButton
+    Left = 48
+    Height = 33
+    Top = 304
+    Width = 168
+    AutoSize = True
+    Caption = 'Switch to user guessing'
+    OnClick = SwitchBtnClick
+    TabOrder = 4
   end
 end
