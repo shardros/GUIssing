@@ -45,6 +45,8 @@
 
 % maths symbols and other stuff (supersedes the ams* packages)
 \usepackage{mathtools}
+% provides \abs
+\usepackage{commath}
 
 % For framing definitions
 \usepackage[framemethod=tikz]{mdframed}
@@ -125,7 +127,7 @@ top=2pt
     This project is the sequel to the popular \texttt{assignment\_guessing},
     at \url{https://github.com/elterminad0r/assignment_guessing}, now featuring
     a very useful and fluid graphical interface, more object orientation, and
-    cleaner general coding practices.
+    cleaner general coding practice.
 
     It uses the same techniques to search both $\mathbb{Q}$ and $\mathbb{Z}$,
     but doesn't implement the linear approach to either, as it's not really
@@ -133,7 +135,7 @@ top=2pt
 
     \section{Programs}
 
-    \subsection{Abstract}
+    \subsection{Interesting}
 
     Despite the fact that the same algorithms from last time can be reapplied,
     their implementations have to be suited the the event-driven idiom. This is
@@ -207,8 +209,8 @@ top=2pt
 
     \subsection{Boring}
 
-    Listings \ref{lst:complfm} and \ref{lst:usrlfm} contains an abridged version
-    of the lfm (Lazarus Forms) file, serving as a brief summary of all that I
+    Listings \ref{lst:complfm} and \ref{lst:usrlfm} contains abridged versions
+    of the lfm (Lazarus Forms) files, serving as a brief summary of all that I
     did in the object inspector.
 
 \begin{longlisting}
@@ -295,33 +297,32 @@ properties of Form elements}
     and the underlying search engine. I have performed several more tests,
     including the cases
 
-    \begin{itemize}
-    \item $0$
-    \item $1$
-    \item $-1$
-    \item $200$
-    \item $-130$
-    \item $16$
-    \end{itemize}
-    in $\mathbb{Z}$, and
-    \begin{itemize}
-    \item $0$
-    \item $1$
-    \item $3$
-    \item $-3$
-    \item $\frac{4}{3}$
-    \item $\frac{5}{2}$
-    \item $-\frac{5}{2}$
-    \end{itemize}
-    in $\mathbb{Q}$. These were not included as entire logs as this would be a
+    \begin{tabular}{rrrrrrrrrrrrr}
+    in $\mathbb{Z}$: & $0$     & $1$     & $-1$    & $200$   & $-130$  & $16$ \\
+    in $\mathbb{Q}$: & $0$ & $1$ & $3$ & $-3$ & $\frac{4}{3}$ & $\frac{5}{2}$ & $-\frac{5}{2}$ \\
+    \end{tabular}
+
+    These were not included as entire logs as this would be a
     serious waste of paper.
 
     Note that this program will fail if the user decided on a number not
     representible by a Pascal \texttt{integer}, as shown in listing
     \ref{lst:overflow}. To solve this problem permanently would require an
     implementation of some kind of \texttt{BigInteger}. This would require lots
-    more memory management and boilerplate code to get anything done, so for now
-    I've opted to let it break.
+    more memory management and boilerplate, which in turn needs time. I'm
+    currently mildly strapped for time so I've opted to let it break.
+
+    This is not a problem for the computer-generated guessing mode as each TEdit
+    limits its input to 8 characters, leaving the user to input at largest
+    $10^8-1$. This is well within the range of a signed 32-bit integer
+    (\,$\abs{n} \lessapprox 2.1 \cdot 10^9$). Another non-bug in this part is if
+    the user enters a lower bound larger than the upper bound (let $a > b$). In
+    this case, a random number in the interval $[a, 2a - b) \cap \mathbb{Z}$ is
+    generated. For example, $a = 100, b = 50$ results in a number in
+    $\{100..149\}$. This is due to the fact that Pascal's \texttt{random} function
+    treats its input as an absolute value. This is ideal
+    behaviour\footnote{Users trying to mess with the program get messed with
+    instead}.
 
 \begin{longlisting}
 \begin{minted}{text}
